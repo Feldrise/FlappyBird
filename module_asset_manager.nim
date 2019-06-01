@@ -2,8 +2,8 @@ import csfml
 import tables
 
 type AssetManager* = ref object of RootObj
-    textures: Table[string, Texture]
-    fonts: Table[string, Font]
+    textures*: Table[string, Texture]
+    fonts*: Table[string, Font]
 
 method loadTexture*(self: AssetManager, name: string, fileName: string) = 
     var texture = newTexture(fileName)

@@ -1,7 +1,7 @@
 import module_state, module_utils
 
 type StateMachine* = ref object of State
-    states: seq[State]
+    states*: seq[State]
     newState: State
 
     isRemoving: bool

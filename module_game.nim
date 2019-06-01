@@ -3,15 +3,15 @@ import csfml
 import module_state, module_state_machine, module_asset_manager, module_input_manager
 
 type GameDate* = ref object of RootObj
-    machine: StateMachine
-    window: RenderWindow
-    assetManager: AssetManager
+    machine*: StateMachine
+    window*: RenderWindow
+    assets*: AssetManager
     inputManager: InputManager
 
 type Game* = ref object of RootObj
-    deltaTime: float
-    clock: Clock
-    data: GameDate
+    deltaTime*: float
+    clock*: Clock
+    data*: GameDate
 
 method run*(self: Game) =  
     var newTime, frameTime, interpolation: float 
@@ -37,11 +37,3 @@ method run*(self: Game) =
         interpolation = accumulator / self.deltaTime
 
         self.data.machine.getActiveState.draw(interpolation)
-
-proc initGame*(width: cint, height: cint, title: string): Game =
-    var deltaTime = 10.0f / 120.0f
-    var window = newRenderWindow(videoMode(width, height), title)
-
-    var data = GameDate(window: window)
-
-    return Game(deltaTime: deltaTime, data: data)

@@ -1,19 +1,19 @@
 type State* = ref object of RootObj
 
 method init*(self: State) {.base.} = 
-    quit "to override!"
+    quit "Init: to override!"
 
 method handleInput*(self: State) {.base.}  = 
-    quit "to override!"
+    quit "Handle: to override!"
 
 method update*(self: State, deltaTime: float) {.base.}  = 
-    quit "to override!"
+    quit "Update: to override!"
     
 method draw*(self: State, deltaTime: float) {.base.}  =   
-    quit "to override!"
+    quit "Draw: to override!"
     
 method pause*(self: State) {.base.}  =
-    quit "to override!"
+    quit "Pause: to override!"
 
 method resume*(self: State) {.base.}  =
-    quit "to override!"
+    quit "Resume: to override!"
