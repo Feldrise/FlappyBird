@@ -4,14 +4,20 @@ import ../module_utils, ../module_game_data
 import ../managers/module_asset_manager, ../managers/module_input_manager
 import ../game_objects/module_pipe, ../game_objects/module_land, ../game_objects/module_bird
 import module_state, module_state_machine
+import ../system/module_system_collision
+
+type GameStates = enum
+    eReady, ePlaying, eGameOver
 
 type GameState* = ref object of State
     data: GameData
     clock: Clock
     background: Sprite
     pipe: Pipe
+    gameState: GameStates
     land: Land
     bird: Bird
+    collision: CollisionSystem
 
 proc newGameState*(data: GameData): GameState =
     return GameState(data: data, clock: newClock(), background: newSprite())
@@ -33,6 +39,8 @@ method init*(self: GameState) =
     self.land = newLand(self.data)
     self.bird = newBird(self.data)
 
+    self.gameState = eReady
+
 method handleInput*(self: GameState) = 
     var event: Event
 
@@ -43,23 +51,36 @@ method handleInput*(self: GameState) =
             self.data.window.close()
 
         if self.data.inputManager.isSpriteClicked(self.background, MouseButton.Left, self.data.window):
-            self.bird.tap()
+            if self.gameState != eGameOver:
+                self.gameState = ePlaying
+                self.bird.tap()
 
 
 method update*(self: GameState, deltaTime: float) =
-    self.pipe.movePipes(deltaTime)
-    self.land.moveLand(deltaTime)
+    if self.gameState != eGameOver:
+        self.land.moveLand(deltaTime)
+        self.bird.animate(deltaTime)
 
-    if self.clock.elapsedTime.asSeconds > 1:
-        self.pipe.randomizePipeOffset()
-        self.pipe.spawnInvisiblePipe()
-        self.pipe.spawnBottomPipe()
-        self.pipe.spawnTopPipe()
+    if self.gameState == ePlaying:
+        self.pipe.movePipes(deltaTime)
 
-        discard self.clock.restart()
-    
-    self.bird.animate(deltaTime)
-    self.bird.update(deltaTime)
+        if self.clock.elapsedTime.asSeconds > 2.0f:
+            self.pipe.randomizePipeOffset()
+            self.pipe.spawnInvisiblePipe()
+            self.pipe.spawnBottomPipe()
+            self.pipe.spawnTopPipe()
+
+            discard self.clock.restart()
+        
+        self.bird.update(deltaTime)
+
+        for land in self.land.landSprites:
+            if self.collision.checkCollisionSprite(self.bird.birdSprite, land):
+                self.gameState = eGameOver
+
+        for pipe in self.pipe.pipeSprites:
+            if self.collision.checkCollisionSprite(self.bird.birdSprite, pipe):
+                self.gameState = eGameOver
     
 method draw*(self: GameState, deltaTime: float) =
     self.data.window.clear Black

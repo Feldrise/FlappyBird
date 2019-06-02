@@ -8,7 +8,7 @@ type BirdState* = enum
 
 type Bird* = ref object of RootObj
     data: GameData
-    birdSprite: Sprite
+    birdSprite*: Sprite
     animationFrames: seq[Texture]
     animationIterator: int
     clock: Clock

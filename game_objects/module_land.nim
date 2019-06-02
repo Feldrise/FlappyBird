@@ -5,7 +5,7 @@ import ../module_game_data
 
 type Land* = ref object of RootObj
     data: GameData
-    landSprites: seq[Sprite]
+    landSprites*: seq[Sprite]
 
 proc newLand*(data: GameData): Land =
     var sprite = newSprite(data.assets.getTexture("Land"))
