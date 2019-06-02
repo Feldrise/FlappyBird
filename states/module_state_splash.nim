@@ -1,7 +1,7 @@
 import csfml
 
-import module_utils, module_game_data
-import module_asset_manager
+import ../module_utils, ../module_game_data
+import ../managers/module_asset_manager
 import module_state, module_state_machine
 import module_state_mainmenu
 

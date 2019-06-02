@@ -1,9 +1,9 @@
 import csfml
 
-import module_utils
-import module_asset_manager, module_input_manager
+import ../module_utils
+import ../managers/module_asset_manager, ../managers/module_input_manager
 import module_state, module_state_machine
-import module_game_data
+import ../module_game_data
 
 type MainMenuState* = ref object of State
     data: GameDate

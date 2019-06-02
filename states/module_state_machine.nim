@@ -1,5 +1,5 @@
-import module_utils
-import module_state
+import ../module_utils
+import ../states/module_state
 
 type StateMachine* = ref object of State
     states*: seq[State]

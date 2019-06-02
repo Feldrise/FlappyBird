@@ -1,8 +1,8 @@
 import csfml
 
-import module_asset_manager, module_input_manager
-import module_state, module_state_machine
-import module_state_splash
+import managers/module_asset_manager, managers/module_input_manager
+import states/module_state, states/module_state_machine
+import states/module_state_splash
 import module_game_data
 
 type Game* = ref object of RootObj

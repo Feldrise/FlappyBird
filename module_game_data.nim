@@ -1,6 +1,6 @@
 import csfml 
-import module_asset_manager, module_input_manager
-import module_state_machine
+import managers/module_asset_manager, managers/module_input_manager
+import states/module_state_machine
 
 type GameDate* = ref object of RootObj
     machine*: StateMachine
