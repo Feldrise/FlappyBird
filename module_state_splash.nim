@@ -29,7 +29,7 @@ method handleInput*(self: SplashState) =
             self.data.window.close()
 
 method update*(self: SplashState, deltaTime: float) =
-            if self.clock.elapsedTime.asSeconds > 5.0f:
+            if self.clock.elapsedTime.asSeconds > 3.0f:
                 self.data.machine.addState(newMainMenuState(self.data), true)
                 self.data.machine.processStateChanges()
     

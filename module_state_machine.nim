@@ -44,5 +44,5 @@ method processStateChanges*(self: StateMachine) {.base.} =
         self.isAdding = false
 
 
-method getActiveState*(self: StateMachine): State =
+method getActiveState*(self: StateMachine): State {.base.} =
     return self.states.top
