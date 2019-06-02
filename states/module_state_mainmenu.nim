@@ -7,12 +7,12 @@ import module_state_game
 import ../module_game_data
 
 type MainMenuState* = ref object of State
-    data: GameDate
+    data: GameData
     background: Sprite
     title: Sprite
     playButton: Sprite
 
-proc newMainMenuState*(data: GameDate): MainMenuState = 
+proc newMainMenuState*(data: GameData): MainMenuState = 
     return MainMenuState(data: data, background: newSprite(), title: newSprite(), playButton: newSprite())
 
 method init*(self: MainMenuState) =

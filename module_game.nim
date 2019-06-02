@@ -8,7 +8,7 @@ import module_game_data
 type Game* = ref object of RootObj
     deltaTime*: float
     clock*: Clock
-    data*: GameDate
+    data*: GameData
 
 proc newGame*(width: cint, height: cint, title: string): Game = 
     return Game(deltaTime: 10.0f / 120.0f, clock: newClock(), data: newGameData(width, height, title))
@@ -28,8 +28,8 @@ method run*(self: Game) {.base.} =
         newTime = self.clock.elapsedTime.asSeconds
         frameTime = newTime - currentTime
 
-        if frameTime > 0.25f:
-            frameTime = 0.25f
+        if frameTime > 0.025f:
+            frameTime = 0.025f
 
         currentTime = newTime
         accumulator = accumulator + frameTime

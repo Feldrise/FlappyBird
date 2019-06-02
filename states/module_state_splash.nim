@@ -6,11 +6,11 @@ import module_state, module_state_machine
 import module_state_mainmenu
 
 type SplashState* = ref object of State
-    data: GameDate
+    data: GameData
     clock: Clock
     background: Sprite
 
-proc newSplashState*(data: GameDate): SplashState =
+proc newSplashState*(data: GameData): SplashState =
     return SplashState(data: data, clock: newClock(), background: newSprite())
 
 method init*(self: SplashState) =
