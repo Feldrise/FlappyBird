@@ -3,6 +3,7 @@ import csfml
 import ../module_utils
 import ../managers/module_asset_manager, ../managers/module_input_manager
 import module_state, module_state_machine
+import module_state_game
 import ../module_game_data
 
 type MainMenuState* = ref object of State
@@ -34,7 +35,7 @@ method handleInput*(self: MainMenuState) =
             self.data.window.close
 
         if self.data.inputManager.isSpriteClicked(self.playButton, MouseButton.Left, self.data.window):
-            echo "Go to the Game"
+            self.data.machine.addState(newGameState(self.data), true)
 
 method update*(self: MainMenuState, deltaTime: float) =
     var ok = 0
