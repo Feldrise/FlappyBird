@@ -4,7 +4,7 @@ import ../module_utils, ../module_game_data
 import ../managers/module_asset_manager, ../managers/module_input_manager
 import ../game_objects/module_pipe, ../game_objects/module_land, ../game_objects/module_bird
 import module_state, module_state_machine
-import ../system/module_system_collision
+import ../system/module_system_collision, ../system/module_system_flash
 
 type GameStates = enum
     eReady, ePlaying, eGameOver
@@ -18,6 +18,7 @@ type GameState* = ref object of State
     land: Land
     bird: Bird
     collision: CollisionSystem
+    flash: FlashSystem
 
 proc newGameState*(data: GameData): GameState =
     return GameState(data: data, clock: newClock(), background: newSprite())
@@ -38,6 +39,8 @@ method init*(self: GameState) =
     self.pipe = newPipe(self.data)
     self.land = newLand(self.data)
     self.bird = newBird(self.data)
+
+    self.flash = newFlash(self.data)
 
     self.gameState = eReady
 
@@ -81,13 +84,18 @@ method update*(self: GameState, deltaTime: float) =
         for pipe in self.pipe.pipeSprites:
             if self.collision.checkCollisionSprite(self.bird.birdSprite, pipe):
                 self.gameState = eGameOver
+
+    if self.gameState == eGameOver:
+        self.flash.show(deltaTime)
     
 method draw*(self: GameState, deltaTime: float) =
     self.data.window.clear Black
   
     self.data.window.draw self.background
-    self.pipe.drawPipes
-    self.land.drawLand
-    self.bird.drawBird
+    self.pipe.drawPipes()
+    self.land.drawLand()
+    self.bird.drawBird()
+
+    self.flash.drawFlash()
 
     self.data.window.display()
