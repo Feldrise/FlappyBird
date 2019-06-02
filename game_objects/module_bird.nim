@@ -38,7 +38,7 @@ method drawBird*(self: Bird) {.base.} =
 method update*(self: Bird, deltaTime: float) {.base.} = 
     if self.birdState == falling:
         self.birdSprite.move(vec2(0, 350.0f * deltaTime))
-        self.rotation = self.rotation * 100.0f * deltaTime
+        self.rotation = self.rotation + 100.0f * deltaTime
 
         if self.rotation > 25.0f:
             self.rotation = 25.0f
@@ -46,7 +46,7 @@ method update*(self: Bird, deltaTime: float) {.base.} =
         self.birdSprite.rotation = self.rotation
     elif self.birdState == flying:
         self.birdSprite.move(vec2(0, -350f * deltaTime))
-        self.rotation = self.rotation * -100.0f * deltaTime
+        self.rotation = self.rotation - 100.0f * deltaTime
 
         if self.rotation < -25.0f:
             self.rotation = -25.0f
