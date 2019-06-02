@@ -2,7 +2,7 @@ import csfml
 
 type InputManager* = ref object of RootObj
 
-method isSpriteClicked*(self: InputManager, obj: Sprite, button: MouseButton, window: RenderWindow): bool =
+method isSpriteClicked*(self: InputManager, obj: Sprite, button: MouseButton, window: RenderWindow): bool {.base.} =
     if mouse_isButtonPressed button:
         var buttonRect = rect(obj.position.x, obj.position.y, obj.globalBounds.width, obj.globalBounds.height)
 
@@ -12,5 +12,5 @@ method isSpriteClicked*(self: InputManager, obj: Sprite, button: MouseButton, wi
     return false
 
     
-method getMousePosition*(self: InputManager, window: RenderWindow): Vector2i =
+method getMousePosition*(self: InputManager, window: RenderWindow): Vector2i {.base.} =
     return mouse_getPosition window

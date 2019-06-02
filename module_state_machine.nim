@@ -1,4 +1,5 @@
-import module_state, module_utils
+import module_utils
+import module_state
 
 type StateMachine* = ref object of State
     states*: seq[State]
@@ -8,16 +9,20 @@ type StateMachine* = ref object of State
     isAdding: bool
     isReplacing: bool
 
-method addState*(self: StateMachine, newState: State, isReplacing: bool = true) = 
+proc newStateMachine*(): StateMachine =
+    return StateMachine(states: newSeq[State](), newState: State(), isRemoving: false, isAdding: false, isReplacing: false)
+
+method addState*(self: StateMachine, newState: State, isReplacing: bool = true) {.base.} = 
     self.isAdding = true
     self.isReplacing = isReplacing
 
     self.newState = newState
 
-method removeState*(self: StateMachine) = 
+method removeState*(self: StateMachine) {.base.} = 
     self.isRemoving = true
 
-method processStateChanges*(self: StateMachine) = 
+method processStateChanges*(self: StateMachine) {.base.} = 
+    # echo "Process Change"
     if self.isRemoving and self.states.len > 0:
         discard self.states.pop
 
@@ -27,6 +32,7 @@ method processStateChanges*(self: StateMachine) =
         self.isRemoving = false
 
     if self.isAdding:
+        # echo "Adding"
         if self.states.len > 0:
             if self.isReplacing:
                 discard self.states.pop
