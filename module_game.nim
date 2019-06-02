@@ -11,7 +11,7 @@ type Game* = ref object of RootObj
     data*: GameData
 
 proc newGame*(width: cint, height: cint, title: string): Game = 
-    return Game(deltaTime: 10.0f / 120.0f, clock: newClock(), data: newGameData(width, height, title))
+    return Game(deltaTime: 10.0f / 1200.0f, clock: newClock(), data: newGameData(width, height, title))
 
 method init*(self: Game) {.base.} =
   self.data.machine.addState(newSplashState(self.data))
